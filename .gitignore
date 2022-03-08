@@ -45,6 +45,9 @@
 # *.iml
 # *.ipr
 
+# All the .idea stuff
+.idea/
+
 # CMake
 cmake-build-*/
 
