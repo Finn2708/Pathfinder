@@ -1,5 +1,8 @@
 # Pathfinder
-2D Visualization Tool for different path finding algorithms
+2D Visualization Tool for different path finding algorithms.
+
+Inspired by: https://clementmihailescu.github.io/Pathfinding-Visualizer/#
+
 
 ## Installation
 The GUI uses ```pygame```. Install with:
