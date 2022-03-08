@@ -1,6 +1,9 @@
 # Pathfinder
 2D Visualization Tool for different path finding algorithms.
 
+![Alt Text](./media/demo.gif)
+
+
 Inspired by: https://clementmihailescu.github.io/Pathfinding-Visualizer/#
 
 
