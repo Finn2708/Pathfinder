@@ -4,6 +4,7 @@ from src.data import DataGrid
 from src.cell import CellValue
 from src.algorithms.algorithm import Algorithm
 from src.algorithms.astar import AStar
+from src.algorithms.dijkstra import Dijkstra
 
 
 class Interface:
@@ -96,7 +97,7 @@ class Interface:
 
     @staticmethod
     def choose_algorithm() -> Type[Algorithm]:
-        return AStar
+        return Dijkstra
 
     def wait_for_input(self):
         while True:

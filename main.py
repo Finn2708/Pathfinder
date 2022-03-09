@@ -21,7 +21,12 @@ if __name__ == '__main__':
                 frontend.handle(data)
                 end = perf_counter()
                 # Render at 60 FPS
-                sleep(1 / 60 - end + start)
+                sleep_time = 1 / 60 - end + start
+                sleep(sleep_time if sleep_time > 0 else 0)
+            # Reconstruct the path
+            algo.show_path(data)
+            # Display the pass
+            frontend.handle(data)
             frontend.wait_for_input()
             frontend.app_find_path = False
             frontend.reset_view(data)
