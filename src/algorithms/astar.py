@@ -7,6 +7,7 @@ from typing import Dict, Tuple
 
 
 class AStar(Algorithm):
+    name: str = "A*"
 
     start: Cell
     goal: Cell

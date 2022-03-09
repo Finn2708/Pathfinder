@@ -2,9 +2,40 @@ import pygame
 from typing import Tuple, Type
 from src.data import DataGrid
 from src.cell import CellValue
+from src.style.colors import Colors
 from src.algorithms.algorithm import Algorithm
 from src.algorithms.astar import AStar
 from src.algorithms.dijkstra import Dijkstra
+
+
+class Button:
+    def __init__(self, name, x, y, algo, size=(200, 100), color=Colors.GRID, text_color=Colors.WALL):
+        self.name = name
+        self.x = x - (size[0] / 2)
+        self.y = y - (size[1] / 2)
+        self.algo = algo
+        self.size = size
+        self.color = color
+        self.rect = pygame.Rect(self.x, self.y, size[0], size[1])
+        self.text_color = text_color
+        pygame.font.init()
+        self.font = pygame.font.Font(None, 25)
+        self.text = self.font.render(self.name, True, self.text_color)
+
+    def render_text(self):
+        self.text = self.font.render(self.name, True, self.text_color)
+
+    def check_event(self, event: pygame.event):
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(pygame.mouse.get_pos()):
+                print(f"{self.name} was clicked")
+                return self.algo
+
+    def update(self, surface: pygame.Surface):
+        surface.fill(pygame.Color("black"), self.rect)
+        surface.fill(self.color, self.rect.inflate(-4, -4))
+        text_rect = self.text.get_rect(center=self.rect.center)
+        surface.blit(self.text, text_rect)
 
 
 class Interface:
@@ -95,9 +126,31 @@ class Interface:
         x, y = [coord // self.cell_size for coord in pos]
         return x, y
 
-    @staticmethod
-    def choose_algorithm() -> Type[Algorithm]:
-        return Dijkstra
+    def choose_algorithm(self) -> Type[Algorithm]:
+        # TODO: Move algorithm list to main and pass in as parameter
+        # TODO: Dynamically place buttons depending on the number of algorithms
+        algorithms = [Dijkstra, AStar]
+
+        # Screen center
+        center = self.screen.get_width() / 2, self.screen.get_height() / 2
+        buttons = []
+        for i, algo in enumerate(algorithms):
+            print(f"Creating button with algo: {algo}")
+            buttons.append(Button(algo.name, center[0], center[1] - i*200, algo))
+
+        chosen = None
+        while not chosen:
+            for event in pygame.event.get():
+                for button in buttons:
+                    ret = button.check_event(event)
+                    print(f"ret = {ret}")
+                    if ret:
+                        print(f"Overwriting chosen")
+                        chosen = ret
+            for button in buttons:
+                button.update(self.screen)
+            pygame.display.update()
+        return chosen
 
     def wait_for_input(self):
         while True:
@@ -109,7 +162,6 @@ class Interface:
                     if event.key == pygame.K_SPACE:
                         # Press space to start the algorithm
                         return
-
 
     @staticmethod
     def reset_view(grid: DataGrid):

@@ -7,6 +7,7 @@ from typing import Dict, Tuple, Optional
 
 
 class Dijkstra(Algorithm):
+    name: str = "Dijkstra"
     start: Cell
     goal: Cell
 
