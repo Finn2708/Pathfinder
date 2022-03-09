@@ -3,7 +3,7 @@ from src.data import DataGrid
 from src.cell import Cell, CellValue
 from queue import PriorityQueue
 from math import inf
-from typing import List, Dict, Tuple
+from typing import Dict, Tuple
 
 
 class AStar(Algorithm):
@@ -13,12 +13,13 @@ class AStar(Algorithm):
 
     open_set: PriorityQueue
 
-    came_from: List[Cell]
+    came_from: Dict[Tuple[int, int], Cell]
 
     g_score: Dict[Tuple[int, int], float]
     f_score: Dict[Tuple[int, int], float]
 
     count: int
+    done: bool
 
     def setup(self, grid: DataGrid):
         sx, sy = grid.start_pos
