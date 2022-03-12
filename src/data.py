@@ -22,6 +22,9 @@ class DataGrid:
 
     def __post_init__(self) -> None:
         """This code is executed at the end of the automatically generated __init__"""
+        # Create cells and assign them to the grid
+        self.create_cells()
+
         # Set grid bounds
         self.x_max = self.cols - 1
         self.y_max = self.rows - 1
@@ -29,10 +32,6 @@ class DataGrid:
         # Set start and goal position
         self.start_pos = (2, 2)
         self.goal_pos = (self.cols - 3, self.rows - 3)
-
-        # Create cells and assign them to the grid
-        self.create_cells()
-
         self.set_start(self.start_pos)
         self.set_goal(self.goal_pos)
 
@@ -83,3 +82,22 @@ class DataGrid:
             if self.y_min <= y <= self.y_max:
                 return True
         return False
+
+    def reset(self):
+        """Reset open cells to initial state"""
+        for col in self.cells:
+            for cell in col:
+                if not (cell.value == CellValue.WALL
+                        or cell.value == CellValue.START
+                        or cell.value == CellValue.GOAL):
+                    cell.value = CellValue.OPEN
+
+    def reset_all(self):
+        """Reset all cells to initial state"""
+        for col in self.cells:
+            for cell in col:
+                cell.value = CellValue.OPEN
+        start_pos = (2, 2)
+        goal_pos = (self.cols - 3, self.rows - 3)
+        self.set_start(start_pos)
+        self.set_goal(goal_pos)
