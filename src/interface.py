@@ -1,11 +1,9 @@
 import pygame
-from typing import Tuple, Type
+from typing import List, Tuple, Type
 from src.data import DataGrid
 from src.cell import CellValue
 from src.style.colors import Colors
 from src.algorithms.algorithm import Algorithm
-from src.algorithms.astar import AStar
-from src.algorithms.dijkstra import Dijkstra
 
 
 class Button:
@@ -28,7 +26,6 @@ class Button:
     def check_event(self, event: pygame.event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(pygame.mouse.get_pos()):
-                print(f"{self.name} was clicked")
                 return self.algo
 
     def update(self, surface: pygame.Surface):
@@ -65,9 +62,9 @@ class Interface:
 
         self.app_quit = False
         self.app_find_path = False
-        self.app_chosen_algo = AStar
 
     def handle(self, grid):
+        """Process events and update the display"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.app_quit = True
@@ -81,9 +78,12 @@ class Interface:
                     if event.key == pygame.K_SPACE:
                         # Press space to start the algorithm
                         self.app_find_path = True
+                    elif event.key == pygame.K_c:
+                        grid.reset_all()
                 # Process the mouse inputs
                 self.handle_mouse_inputs(grid)
         self.draw_cells(grid)
+        pygame.display.update()
 
     def draw_cells(self, grid):
         """Draw all the cells in the grid to the screen"""
@@ -92,9 +92,9 @@ class Interface:
                 cell.update_color()
                 pygame.draw.rect(self.screen, cell.fill_color, cell.rect)
                 pygame.draw.rect(self.screen, cell.border_color, cell.border, 1)
-        pygame.display.update()
 
     def handle_mouse_inputs(self, grid: DataGrid):
+        """Process mouse clicks"""
         for button, pressed in enumerate(self.mouse_state):
             if pressed:
                 x, y = self.get_mouse_pos()
@@ -126,16 +126,13 @@ class Interface:
         x, y = [coord // self.cell_size for coord in pos]
         return x, y
 
-    def choose_algorithm(self) -> Type[Algorithm]:
-        # TODO: Move algorithm list to main and pass in as parameter
+    def choose_algorithm(self, algorithms: List[Type[Algorithm]]) -> Type[Algorithm]:
         # TODO: Dynamically place buttons depending on the number of algorithms
-        algorithms = [Dijkstra, AStar]
 
         # Screen center
         center = self.screen.get_width() / 2, self.screen.get_height() / 2
         buttons = []
         for i, algo in enumerate(algorithms):
-            print(f"Creating button with algo: {algo}")
             buttons.append(Button(algo.name, center[0], center[1] - i*200, algo))
 
         chosen = None
@@ -143,9 +140,7 @@ class Interface:
             for event in pygame.event.get():
                 for button in buttons:
                     ret = button.check_event(event)
-                    print(f"ret = {ret}")
                     if ret:
-                        print(f"Overwriting chosen")
                         chosen = ret
             for button in buttons:
                 button.update(self.screen)
@@ -153,6 +148,7 @@ class Interface:
         return chosen
 
     def wait_for_input(self):
+        """Wait for user input [SPACE]"""
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -160,12 +156,18 @@ class Interface:
                     return
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        # Press space to start the algorithm
                         return
 
-    @staticmethod
-    def reset_view(grid: DataGrid):
-        for col in grid.cells:
-            for cell in col:
-                if not cell.start and not cell.goal:
-                    cell.value = CellValue.OPEN
+    def reset_view(self, grid: DataGrid):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.app_quit = True
+                    return
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        grid.reset()
+                        return
+                    elif event.key == pygame.K_c:
+                        grid.reset_all()
+                        return
