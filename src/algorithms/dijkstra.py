@@ -17,16 +17,9 @@ class Dijkstra(Algorithm):
 
     q: PriorityQueue
 
-    done: bool
+    def __init__(self, grid: DataGrid) -> None:
+        super().__init__(grid)
 
-    def setup(self, grid: DataGrid) -> None:
-        sx, sy = grid.start_pos
-        self.start = grid.cells[sx][sy]
-
-        gx, gy = grid.goal_pos
-        self.goal = grid.cells[gx][gy]
-
-        self.done = False
         self.find_neighbors(grid)
 
         # Create a heap queue object
@@ -52,8 +45,11 @@ class Dijkstra(Algorithm):
         if not self.visited[current.pos]:
             self.visited[current.pos] = True
             if current == self.goal:
+                print("Path found")
                 self.done = True
+                self.show_path(grid)
                 return True
+
             for neighbor in current.neighbors:
                 if not self.visited[neighbor.pos]:
                     alt = self.dist[current.pos] + self.d(current.pos, neighbor.pos)
