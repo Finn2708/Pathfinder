@@ -1,14 +1,18 @@
 # Pathfinder
-2D Visualization Tool for different path finding algorithms.
+Yet another 2D Visualization Tool for different path finding algorithms.
+
+Inspired by: https://clementmihailescu.github.io/Pathfinding-Visualizer/
+
+## Algorithms:
+- [A*](https://en.wikipedia.org/wiki/A*_search_algorithm)
+- [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
+- [Greedy BFS](https://en.wikipedia.org/wiki/Best-first_search#Greedy_BFS)
 
 ![Alt Text](./media/demo.gif)
 
 
-Inspired by: https://clementmihailescu.github.io/Pathfinding-Visualizer/#
-
-
 ## Installation
-The GUI uses ```pygame```. Install with:
+The GUI uses ```pygame```. Install using pip:
 ```
 pip install -r requirements.txt
 ```
@@ -27,3 +31,5 @@ py main.py
 - ``Middle-Click`` - Move start / goal
 
 - ``Space`` - Start algorithm / Clear map
+
+- ``r`` - Reset the entire map

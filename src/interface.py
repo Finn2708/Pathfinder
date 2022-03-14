@@ -78,7 +78,7 @@ class Interface:
                     if event.key == pygame.K_SPACE:
                         # Press space to start the algorithm
                         self.app_find_path = True
-                    elif event.key == pygame.K_c:
+                    elif event.key == pygame.K_r:
                         grid.reset_all()
                 # Process the mouse inputs
                 self.handle_mouse_inputs(grid)
@@ -168,6 +168,6 @@ class Interface:
                     if event.key == pygame.K_SPACE:
                         grid.reset()
                         return
-                    elif event.key == pygame.K_c:
+                    elif event.key == pygame.K_r:
                         grid.reset_all()
                         return
