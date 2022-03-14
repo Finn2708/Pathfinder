@@ -1,7 +1,7 @@
 # Pathfinder
 Yet another 2D Visualization Tool for different path finding algorithms.
 
-Inspired by: https://clementmihailescu.github.io/Pathfinding-Visualizer/
+Inspired by [Pathfinding Visualizer by Clement Mihailescu](https://clementmihailescu.github.io/Pathfinding-Visualizer/)
 
 ## Algorithms:
 - [A*](https://en.wikipedia.org/wiki/A*_search_algorithm)
