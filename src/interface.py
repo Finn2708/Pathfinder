@@ -133,7 +133,7 @@ class Interface:
         center = self.screen.get_width() / 2, self.screen.get_height() / 2
         buttons = []
         for i, algo in enumerate(algorithms):
-            buttons.append(Button(algo.name, center[0], center[1] - i*200, algo))
+            buttons.append(Button(algo.name, center[0], center[1] + 200 - i*200, algo))
 
         chosen = None
         while not chosen:
