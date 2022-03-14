@@ -64,8 +64,7 @@ class AStar(Algorithm):
         self.open_set_iterable.remove(current)
 
         # Mark the current cell as considered, so we can show it in the frontend
-        if current != self.start and current != self.goal:
-            current.value = CellValue.CONSIDERED
+        current.set_value(CellValue.CONSIDERED)
 
         # Check if we are done
         if current == self.goal:
@@ -91,9 +90,8 @@ class AStar(Algorithm):
                     self.count += 1
                     self.open_set.put((self.f_score[neighbor.pos], self.count, neighbor))
                     self.open_set_iterable.append(neighbor)
-                    if neighbor is not self.goal:
-                        # And mark it's current state for the frontend
-                        neighbor.value = CellValue.CONSIDERING
+                    # And mark it's current state for the frontend
+                    neighbor.set_value(CellValue.CONSIDERING)
 
         # If there aren't any more nodes on the heap queue, we were unsuccessful in finding a path
         if self.open_set.empty():

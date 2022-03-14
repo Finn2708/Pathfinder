@@ -1,8 +1,9 @@
 from enum import Enum, unique
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import Tuple
 from pygame import Rect
 from src.style.colors import Colors
+
 
 @unique
 class CellValue(Enum):
@@ -21,7 +22,7 @@ class Cell:
     x: int = field(repr=True, init=True)
     y: int = field(repr=True, init=True)
     pos: Tuple[int, int] = field(repr=False, init=False)
-    value: float = field(repr=True, init=False, default=CellValue.OPEN)
+    value: CellValue = field(repr=True, init=False, default=CellValue.OPEN)
     start: bool = field(repr=True, init=False, default=False)
     goal: bool = field(repr=True, init=False, default=False)
 
@@ -40,6 +41,13 @@ class Cell:
                          self.size)
         self.border = Rect(self.rect)
         self.neighbors = []
+
+    def set_value(self, value: CellValue) -> bool:
+        """Update the cells value (unless it's start/goal)"""
+        if self.value is not CellValue.START and self.value is not CellValue.GOAL:
+            self.value = value
+            return True
+        return False
 
     def update_color(self):
         """Update color according to current cell value"""
@@ -71,4 +79,3 @@ class Cell:
 
     def __lt__(self, other):
         return False
-

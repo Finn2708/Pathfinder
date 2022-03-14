@@ -40,8 +40,7 @@ class Dijkstra(Algorithm):
         # Get lowest
         x, y = self.q.get()[1]
         current = grid.cells[x][y]
-        if current != self.start and current != self.goal:
-            current.value = CellValue.CONSIDERED
+        current.set_value(CellValue.CONSIDERED)
         if not self.visited[current.pos]:
             self.visited[current.pos] = True
             if current == self.goal:
@@ -58,8 +57,7 @@ class Dijkstra(Algorithm):
                         # self.prev[neighbor.pos] = current.pos
                         self.prev[neighbor.pos] = current
                         self.q.put((self.dist[current.pos], neighbor.pos))
-                        if neighbor is not self.goal:
-                            neighbor.value = CellValue.CONSIDERING
+                        neighbor.set_value(CellValue.CONSIDERING)
         if self.q.empty():
             self.done = True
             print("No path found")
