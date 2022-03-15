@@ -1,55 +1,65 @@
 from src.algorithms.algorithm import Algorithm
 from src.data import DataGrid
 from src.cell import Cell, CellValue
-from queue import PriorityQueue
+from queue import Queue
 from typing import List
 
 
-class GreedyBFS(Algorithm):
-    name: str = "Greedy Best First Search"
-    queue: PriorityQueue
+class BreadthFirstSearch(Algorithm):
+    name: str = "Breadth First Search"
+    queue: Queue
 
-    visited: List[Cell]
+    explored: List[Cell]
 
     def __init__(self, grid: DataGrid):
-        """Set up the Greedy Best First Search algorithm"""
+        """Set up the Breadth First Search algorithm"""
         super().__init__(grid)
-
         self.find_neighbors(grid)
+        self.queue = Queue()
+        self.explored = [self.start]
+        self.queue.put(self.start)
 
         self.done = False
 
-        self.visited = []
-
-        self.queue = PriorityQueue()
-        self.queue.put((self.h(self.start, self.goal), self.start))
-
-    def run_algorithm(self, grid: DataGrid):
+    def run_algorithm(self, grid: DataGrid) -> bool:
         """
-        Greedy Best First Search (BFS) algorithm to find a path from start to goal
+        Breadth First Search (BFS) algorithm to find a path from start to goal
 
         Reference:
-        https://en.wikipedia.org/wiki/Best-first_search#Greedy_BFS
+        https://en.wikipedia.org/wiki/Breadth-first_search
         """
-        _, current = self.queue.get()
-
-        if current not in self.visited:
-            self.visited.append(current)
-            if current == self.goal:
-                self.done = True
-                self.show_path(grid)
-                print("Path found")
-                return True
-            for neighbor in current.neighbors:
-                # Queue any new neighbors according to their score
-                if neighbor not in self.visited:
-                    neighbor.set_value(CellValue.CONSIDERING)
-                    self.queue.put((self.h(neighbor, self.goal), neighbor))
-            current.set_value(CellValue.CONSIDERED)
+        current = self.queue.get()
+        current.set_value(CellValue.CONSIDERED)
+        if current is self.goal:
+            self.done = True
+            self.show_path(grid)
+            print("Path found")
+            return True
+        for neighbor in current.neighbors:
+            if neighbor not in self.explored:
+                self.explored.append(neighbor)
+                self.queue.put(neighbor)
+                neighbor.set_value(CellValue.CONSIDERING)
 
         if self.queue.empty():
             self.done = True
             print("No path found")
+            return True
+
+        return False
+
+    @staticmethod
+    def d(current, neighbor):
+        """Return the weight of the edge from current to neighbor
+
+        --- Not implemented at this point ---
+        """
+        return 1
+
+    @staticmethod
+    def h(n1: Cell, n2: Cell):
+        """Return the Manhattan distance of two nodes"""
+        return abs(n1.x - n2.x) + abs(n1.y - n2.y)
 
     def show_path(self, grid: DataGrid):
         """Mark the path"""
@@ -58,7 +68,7 @@ class GreedyBFS(Algorithm):
             if current is not self.start and current is not self.goal:
                 current.value = CellValue.PATH
             # Find first appearance of neighbors in visited:
-            for cell in self.visited:
+            for cell in self.explored:
                 if cell in current.neighbors:
                     current = cell
                     break
