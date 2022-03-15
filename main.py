@@ -4,12 +4,13 @@ from src.algorithms.astar import AStar
 from src.algorithms.dijkstra import Dijkstra
 from src.algorithms.greedyBFS import GreedyBFS
 from src.algorithms.breadthFirstSearch import BreadthFirstSearch
+from src.algorithms.depthFirstSearch import DepthFirstSearch
 import pygame.time
 
 
 if __name__ == '__main__':
     # Add additional algorithms to this list:
-    algorithms = [Dijkstra, AStar, GreedyBFS, BreadthFirstSearch]
+    algorithms = [Dijkstra, AStar, GreedyBFS, BreadthFirstSearch, DepthFirstSearch]
 
     # Set up the data container
     data = DataGrid()
