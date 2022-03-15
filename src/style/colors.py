@@ -7,3 +7,5 @@ class Colors:
     START = (0, 180, 0)
     GOAL = (200, 0, 0)
     WALL = (27, 38, 44)
+    BUTTON = (49, 51, 53)
+    BUTTON_TEXT = GRID

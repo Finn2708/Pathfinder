@@ -7,7 +7,7 @@ from src.algorithms.algorithm import Algorithm
 
 
 class Button:
-    def __init__(self, name, x, y, algo, size=(200, 100), color=Colors.GRID, text_color=Colors.WALL):
+    def __init__(self, name, x, y, algo, size=(225, 75), color=Colors.BUTTON, text_color=Colors.BUTTON_TEXT):
         self.name = name
         self.x = x - (size[0] / 2)
         self.y = y - (size[1] / 2)
@@ -29,7 +29,7 @@ class Button:
                 return self.algo
 
     def update(self, surface: pygame.Surface):
-        surface.fill(pygame.Color("black"), self.rect)
+        surface.fill(Colors.WALL, self.rect)
         surface.fill(self.color, self.rect.inflate(-4, -4))
         text_rect = self.text.get_rect(center=self.rect.center)
         surface.blit(self.text, text_rect)
@@ -127,13 +127,23 @@ class Interface:
         return x, y
 
     def choose_algorithm(self, algorithms: List[Type[Algorithm]]) -> Type[Algorithm]:
-        # TODO: Dynamically place buttons depending on the number of algorithms
+        max_buttons_per_column = 2
 
+        columns_required = len(algorithms) // max_buttons_per_column
+        if len(algorithms) % max_buttons_per_column != 0:
+            columns_required += 1
+        print(columns_required)
         # Screen center
-        center = self.screen.get_width() / 2, self.screen.get_height() / 2
+        cx, cy = self.screen.get_width() / 2, self.screen.get_height() / 2
         buttons = []
         for i, algo in enumerate(algorithms):
-            buttons.append(Button(algo.name, center[0], center[1] + 300 - i*200, algo))
+            x_pos = cx - (((columns_required - 1) - ((i // max_buttons_per_column) * 2)) * 125)
+            y_pos = cy + 50 - ((max_buttons_per_column / 2) * 125) + i % max_buttons_per_column * 125
+            print(x_pos, y_pos)
+            buttons.append(Button(algo.name,
+                                  x_pos,
+                                  y_pos,
+                                  algo))
 
         chosen = None
         while not chosen:
