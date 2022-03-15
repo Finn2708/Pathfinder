@@ -127,23 +127,24 @@ class Interface:
         return x, y
 
     def choose_algorithm(self, algorithms: List[Type[Algorithm]]) -> Type[Algorithm]:
-        max_buttons_per_column = 2
+        # How many button cols are needed
+        num_columns = 2
 
-        columns_required = len(algorithms) // max_buttons_per_column
-        if len(algorithms) % max_buttons_per_column != 0:
-            columns_required += 1
-        print(columns_required)
+        # Calculate how many rows are needed
+        num_rows = len(algorithms) // num_columns
+        if len(algorithms) % num_columns != 0:
+            num_rows += 1
+
         # Screen center
         cx, cy = self.screen.get_width() / 2, self.screen.get_height() / 2
+
+        # Create the buttons
         buttons = []
         for i, algo in enumerate(algorithms):
-            x_pos = cx - (((columns_required - 1) - ((i // max_buttons_per_column) * 2)) * 125)
-            y_pos = cy + 50 - ((max_buttons_per_column / 2) * 125) + i % max_buttons_per_column * 125
+            x_pos = cx - (((num_columns - 1) - ((i // num_rows) * 2)) * 125)
+            y_pos = cy + 50 - ((num_rows / 2) * 125) + i % num_rows * 125
             print(x_pos, y_pos)
-            buttons.append(Button(algo.name,
-                                  x_pos,
-                                  y_pos,
-                                  algo))
+            buttons.append(Button(algo.name, x_pos, y_pos, algo))
 
         chosen = None
         while not chosen:
