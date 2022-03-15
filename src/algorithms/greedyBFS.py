@@ -51,6 +51,19 @@ class GreedyBFS(Algorithm):
             self.done = True
             print("No path found")
 
+    @staticmethod
+    def d(current, neighbor):
+        """Return the weight of the edge from current to neighbor
+
+        --- Not implemented at this point ---
+        """
+        return 1
+
+    @staticmethod
+    def h(n1: Cell, n2: Cell):
+        """Return the Manhattan distance of two nodes"""
+        return abs(n1.x - n2.x) + abs(n1.y - n2.y)
+
     def show_path(self, grid: DataGrid):
         """Mark the path"""
         current = self.goal
