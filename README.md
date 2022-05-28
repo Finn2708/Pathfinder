@@ -6,7 +6,9 @@ Inspired by [Pathfinding Visualizer by Clement Mihailescu](https://clementmihail
 ## Algorithms:
 - [A*](https://en.wikipedia.org/wiki/A*_search_algorithm)
 - [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
-- [Greedy BFS](https://en.wikipedia.org/wiki/Best-first_search#Greedy_BFS)
+- [Breadth First Search](https://en.wikipedia.org/wiki/Breadth-first_search)
+- [Depth First Search](https://en.wikipedia.org/wiki/Depth-first_search)
+- [Greedy Best First Search](https://en.wikipedia.org/wiki/Best-first_search#Greedy_BFS)
 
 ![Alt Text](./media/demo.gif)
 
