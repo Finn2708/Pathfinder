@@ -17,14 +17,14 @@ Individual algorithms are derived from an abstract base class `Algorithm(ABC)` i
 
 
 ## Installation
-The GUI uses ```pygame```. Install using pip:
+The GUI uses ```pygame```. This project is managed with [uv](https://docs.astral.sh/uv/):
 ```
-pip install -r requirements.txt
+uv sync
 ```
 
 ## Usage
 ```
-py main.py
+uv run main.py
 ```
 
 ## Controls
