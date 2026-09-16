@@ -8,4 +8,4 @@ class Colors:
     GOAL = (255, 70, 70)
     WALL = (5, 15, 25)
     BUTTON = (15, 35, 50)
-    BUTTON_TEXT = GRID
+    BUTTON_TEXT = (255, 255, 255)
